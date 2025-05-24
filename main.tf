@@ -114,3 +114,39 @@ resource "aws_route_table_association" "public-b-association" {
     subnet_id = aws_subnet.public-subnet-b.id
     route_table_id = aws_route_table.public-route.id
 }
+
+# NAT Gateway with Elastic IP address (eip) - alloow private subnets to connect to the intternet (updates/dowloads) without expose private resources directly
+
+resource "aws_eip" "nat-a" { # Creates Elastic IP - a static public IP address managed by AWS
+    vpc = true # to be used in a VPC
+    tags = {
+        "Name" = "${local.vpc_name}-NAT-a"
+    }
+}
+
+resource "aws_eip" "nat-b" {
+    vpc = true
+    tags = {
+        "Name" = "${local.vpc_name}-NAT-b"
+    }
+}
+
+resource "aws_nat_gateway" "nat-gw-a" { # creates a NAT Gateway
+    allocation_id   = aws_eip.nat-a.id # linked with the Elastic IP
+    subnet_id       = aws_subnet.public-subnet-a.id # places the NAT Gateway inside the public subnet
+    depends_on      = [aws_internet_gateway.igw] # make sure that the Internet Gateway is created first. Because NAT needs internet access
+
+    tags = {
+        "Name" = "${local.vpc_name}-NAT-gw-a"
+    }
+}
+
+resource "aws_nat_gateway" "nat-gw-b" {
+    allocation_id   = aws_eip.nat-b.id
+    subnet_id       = aws_subnet.public-subnet-b.id
+    depends_on      = [aws_internet_gateway.igw]
+
+    tags = {
+        "Name" = "${local.vpc_name}-NAT-gw-b"
+    }
+}
