@@ -81,3 +81,31 @@ resource "aws_subnet" "private-subnet-b" {
             
     }
 }
+
+# Internet gateway and routing tables for public subnets
+
+resource "aws_internet_gateway" "igw" { # Creates the internet gatweay name igw
+    vpc_id = aws_vpc.main.id # attached to the VPC previously created
+
+    tags = {
+        "Name" = "${local.vpc_name}-igw"
+    }
+}
+
+resource "aws_route_table" "public_route" { # Creates a route table named public_route
+    vpc_id = aws_vpc.main.id # attached to the VPC previously created
+
+    route {
+        cidr_block = "0.0.0.0/0" # matches all IP addresses (entire internet)
+        gateway_id = aws_internet_gateway.igw.id # sends the traffic to the Internet Gateway previously created
+    }
+
+    tags = {
+        "Name" = "${local.vpc_name}-public-route"
+    }
+}
+
+resource "aws_route_table_association" "public-a-association" {
+    subnet_id = aws_subnet.public-subnet-a.id
+    route_table_id = aws_route_table.public-route.id
+}
