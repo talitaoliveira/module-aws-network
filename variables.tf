@@ -15,22 +15,22 @@ variable "main_vpc_cidr" {
   type = string
 }
 
-variable "public_subnet_a_cirdr" {
+variable "public_subnet_a_cidr" {
   type = string
 }
 
-variable "public_subnet_b_cirdr" {
+variable "public_subnet_b_cidr" {
   type = string
 }
 
-variable "private_subnet_a_cirdr" {
+variable "private_subnet_a_cidr" {
   type = string
 }
 
-variable "private_subnet_b_cirdr" {
+variable "private_subnet_b_cidr" {
   type = string
 }
 
-variable "cluter_name" {
+variable "cluster_name" {
   type = string
 }
