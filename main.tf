@@ -118,14 +118,14 @@ resource "aws_route_table_association" "public-b-association" {
 # NAT Gateway with Elastic IP address (eip) - alloow private subnets to connect to the intternet (updates/dowloads) without expose private resources directly
 
 resource "aws_eip" "nat-a" { # Creates Elastic IP - a static public IP address managed by AWS
-  vpc = true                 # to be used in a VPC
+  domain = vpc                 # to be used in a VPC
   tags = {
     "Name" = "${local.vpc_name}-NAT-a"
   }
 }
 
 resource "aws_eip" "nat-b" {
-  vpc = true
+  domain = vpc
   tags = {
     "Name" = "${local.vpc_name}-NAT-b"
   }
