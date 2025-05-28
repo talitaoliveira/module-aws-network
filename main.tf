@@ -153,7 +153,7 @@ resource "aws_nat_gateway" "nat-gw-b" {
 
 resource "aws_route_table" "private-route-a" {
   vpc_id = aws_vpc.main.id
-  route = {
+  route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat-gw-a.id
   }
@@ -165,7 +165,7 @@ resource "aws_route_table" "private-route-a" {
 
 resource "aws_route_table" "private-route-b" {
   vpc_id = aws_vpc.main.id
-  route = {
+  route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat-gw-b.id
   }
