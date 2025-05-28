@@ -92,7 +92,7 @@ resource "aws_internet_gateway" "igw" { # Creates the internet gatweay name igw
   }
 }
 
-resource "aws_route_table" "public_route" { # Creates a route table named public_route
+resource "aws_route_table" "public-route" { # Creates a route table named public-route
   vpc_id = aws_vpc.main.id                  # attached to the VPC previously created
 
   route {
